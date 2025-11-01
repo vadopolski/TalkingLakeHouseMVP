@@ -53,10 +53,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         user_id: 'default_user' // In production, get from auth
       });
 
+      // Check if the response indicates an error (success: false)
+      const content = response.data.error
+        ? response.data.error
+        : (response.data.text_response || 'No response');
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: response.data.text_response || 'No response',
+        content: content,
         timestamp: new Date(),
         chartData: response.data.chart_data,
         citation: response.data.citation
