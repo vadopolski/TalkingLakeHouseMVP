@@ -15,7 +15,7 @@ interface ChatInterfaceProps {
 }
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
-  apiUrl = 'http://localhost:8000/api/query'
+  apiUrl = 'http://localhost:8000/api/query/sales'
 }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
