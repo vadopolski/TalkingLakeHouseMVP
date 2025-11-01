@@ -1,0 +1,33 @@
+.App {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.App-header {
+  margin-bottom: 2rem;
+}
+
+.App-header h1 {
+  font-size: 2.5em;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+  color: #646cff;
+}
+
+.App-header p {
+  color: #888;
+  font-size: 1.1em;
+}
+
+main {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (prefers-color-scheme: light) {
+  .App-header h1 {
+    color: #535bf2;
+  }
+}
