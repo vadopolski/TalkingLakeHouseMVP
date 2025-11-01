@@ -98,34 +98,47 @@ class ParameterExtractor:
         today = datetime.now().date()
 
         # Relative date patterns
+
+        # Check for "last year" modifier first (before other patterns)
+        year_offset = 0
+        if "last year" in query_lower or "previous year" in query_lower:
+            year_offset = -1
+        elif "two years ago" in query_lower or "2 years ago" in query_lower:
+            year_offset = -2
+
         if "yesterday" in query_lower:
-            date = (today - timedelta(days=1)).isoformat()
-            return date, date
+            date = (today - timedelta(days=1)).replace(year=today.year + year_offset)
+            return date.isoformat(), date.isoformat()
 
         if "last week" in query_lower or "past week" in query_lower:
-            end_date = today.isoformat()
-            start_date = (today - timedelta(days=7)).isoformat()
+            reference_date = today.replace(year=today.year + year_offset) if year_offset else today
+            end_date = reference_date.isoformat()
+            start_date = (reference_date - timedelta(days=7)).isoformat()
             return start_date, end_date
 
         if "this week" in query_lower:
             # Start of week (Monday)
-            start_of_week = today - timedelta(days=today.weekday())
-            return start_of_week.isoformat(), today.isoformat()
+            reference_date = today.replace(year=today.year + year_offset) if year_offset else today
+            start_of_week = reference_date - timedelta(days=reference_date.weekday())
+            return start_of_week.isoformat(), reference_date.isoformat()
 
         if "last month" in query_lower:
             # Previous month
-            first_of_this_month = today.replace(day=1)
+            reference_date = today.replace(year=today.year + year_offset) if year_offset else today
+            first_of_this_month = reference_date.replace(day=1)
             last_of_prev_month = first_of_this_month - timedelta(days=1)
             first_of_prev_month = last_of_prev_month.replace(day=1)
             return first_of_prev_month.isoformat(), last_of_prev_month.isoformat()
 
         if "this month" in query_lower:
-            first_of_month = today.replace(day=1)
-            return first_of_month.isoformat(), today.isoformat()
+            reference_date = today.replace(year=today.year + year_offset) if year_offset else today
+            first_of_month = reference_date.replace(day=1)
+            return first_of_month.isoformat(), reference_date.isoformat()
 
         if "this year" in query_lower:
-            first_of_year = today.replace(month=1, day=1)
-            return first_of_year.isoformat(), today.isoformat()
+            reference_date = today.replace(year=today.year + year_offset) if year_offset else today
+            first_of_year = reference_date.replace(month=1, day=1)
+            return first_of_year.isoformat(), reference_date.isoformat()
 
         # Look for specific date patterns (e.g., "October 1 to October 15")
         date_range = self._extract_specific_dates(user_query)
