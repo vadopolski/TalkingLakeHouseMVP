@@ -23,6 +23,9 @@ COPY config/ ./config/
 # Create logs directory
 RUN mkdir -p logs
 
+# Set PYTHONPATH so imports work correctly
+ENV PYTHONPATH=/app
+
 # Expose port
 EXPOSE 8000
 
