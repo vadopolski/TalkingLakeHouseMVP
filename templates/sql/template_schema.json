@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SQL Template Schema",
+  "description": "Schema definition for version-controlled SQL query templates following Constitutional Principles III, IV, and VI",
+  "type": "object",
+  "required": ["template_id", "description", "sql_structure", "parameters", "whitelisted_tables", "chart_type"],
+  "properties": {
+    "template_id": {
+      "type": "string",
+      "description": "Unique identifier for the template (e.g., 'sales_by_date_range')",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of what this template does"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["sales", "traffic", "conversion", "general"],
+      "description": "Category of query for classification"
+    },
+    "sql_structure": {
+      "type": "string",
+      "description": "SQL query with placeholders (e.g., {start_date}, {end_date}). MUST be SELECT only. JOINs must be hardcoded."
+    },
+    "parameters": {
+      "type": "array",
+      "description": "List of parameter definitions for this template",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "required"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Parameter name matching placeholder in sql_structure"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["date", "string", "integer", "float", "boolean"],
+            "description": "Parameter data type"
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Whether this parameter is mandatory"
+          },
+          "default_value": {
+            "description": "Default value if parameter not provided (optional)"
+          },
+          "validation": {
+            "type": "object",
+            "description": "Validation rules for parameter",
+            "properties": {
+              "min_value": {
+                "description": "Minimum value for numeric types"
+              },
+              "max_value": {
+                "description": "Maximum value for numeric types"
+              },
+              "pattern": {
+                "type": "string",
+                "description": "Regex pattern for string validation"
+              },
+              "allowed_values": {
+                "type": "array",
+                "description": "Whitelist of allowed values"
+              }
+            }
+          }
+        }
+      }
+    },
+    "whitelisted_tables": {
+      "type": "array",
+      "description": "Tables this template is allowed to query (must be subset of global whitelist)",
+      "items": {
+        "type": "string",
+        "enum": ["sales_transactions", "website_visits"]
+      },
+      "minItems": 1
+    },
+    "whitelisted_columns": {
+      "type": "array",
+      "description": "Columns this template accesses",
+      "items": {
+        "type": "string"
+      }
+    },
+    "chart_type": {
+      "type": "string",
+      "enum": ["bar", "line", "pie", "scatter", "mixed", "none"],
+      "description": "Recommended chart type for visualizing results"
+    },
+    "response_format": {
+      "type": "string",
+      "enum": ["text_only", "chart_only", "text_and_chart"],
+      "description": "How to format the response",
+      "default": "text_and_chart"
+    },
+    "example_questions": {
+      "type": "array",
+      "description": "Example user questions that map to this template (for few-shot learning)",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limit_clause_required": {
+      "type": "boolean",
+      "description": "Whether LIMIT clause must be injected (always true for SELECT queries)",
+      "default": true
+    },
+    "timeout_seconds": {
+      "type": "integer",
+      "description": "Maximum query execution time (default 30s)",
+      "default": 30,
+      "minimum": 1,
+      "maximum": 120
+    }
+  }
+}

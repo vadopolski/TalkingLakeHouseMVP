@@ -1,0 +1,232 @@
+{
+  "description": "Few-shot examples for LLM template selection and parameter extraction",
+  "version": "1.0.0",
+  "examples": [
+    {
+      "category": "sales",
+      "user_query": "What were sales last week?",
+      "template_id": "sales_by_date_range",
+      "parameters": {
+        "start_date": "2024-10-24",
+        "end_date": "2024-10-31"
+      },
+      "explanation": "Date range query for sales in the past 7 days"
+    },
+    {
+      "category": "sales",
+      "user_query": "Show me top selling products",
+      "template_id": "top_products",
+      "parameters": {
+        "start_date": "2024-01-01",
+        "end_date": "2024-12-31",
+        "order_by": "total_revenue"
+      },
+      "explanation": "Ranking query for top products by revenue"
+    },
+    {
+      "category": "sales",
+      "user_query": "Total revenue this month",
+      "template_id": "sales_aggregation",
+      "parameters": {
+        "start_date": "2024-10-01",
+        "end_date": "2024-10-31",
+        "aggregation": "SUM"
+      },
+      "explanation": "Aggregation query for monthly revenue"
+    },
+    {
+      "category": "sales",
+      "user_query": "Sales from October 1 to October 15",
+      "template_id": "sales_by_date_range",
+      "parameters": {
+        "start_date": "2024-10-01",
+        "end_date": "2024-10-15"
+      },
+      "explanation": "Specific date range query"
+    },
+    {
+      "category": "sales",
+      "user_query": "What were total sales this month?",
+      "template_id": "sales_aggregation",
+      "parameters": {
+        "start_date": "2024-10-01",
+        "end_date": "2024-10-31",
+        "aggregation": "SUM"
+      },
+      "explanation": "MVP test query - total sales aggregation"
+    },
+    {
+      "category": "sales",
+      "user_query": "Best selling products this year",
+      "template_id": "top_products",
+      "parameters": {
+        "start_date": "2024-01-01",
+        "end_date": "2024-12-31",
+        "order_by": "total_revenue"
+      },
+      "explanation": "Annual top products query"
+    },
+    {
+      "category": "sales",
+      "user_query": "Average transaction value",
+      "template_id": "sales_aggregation",
+      "parameters": {
+        "start_date": "2024-01-01",
+        "end_date": "2024-12-31",
+        "aggregation": "AVG"
+      },
+      "explanation": "Average sales value calculation"
+    },
+    {
+      "category": "traffic",
+      "user_query": "How many visitors yesterday?",
+      "template_id": "visitors_by_date_range",
+      "parameters": {
+        "start_date": "2024-10-30",
+        "end_date": "2024-10-30"
+      },
+      "explanation": "Single day visitor count"
+    },
+    {
+      "category": "traffic",
+      "user_query": "When do we get most visitors?",
+      "template_id": "peak_traffic_times",
+      "parameters": {
+        "period": "week",
+        "group_by": "hour"
+      },
+      "explanation": "Peak time analysis for visitor traffic"
+    },
+    {
+      "category": "traffic",
+      "user_query": "Compare visits this week vs last week",
+      "template_id": "traffic_comparison",
+      "parameters": {
+        "current_start": "2024-10-24",
+        "current_end": "2024-10-31",
+        "previous_start": "2024-10-17",
+        "previous_end": "2024-10-24"
+      },
+      "explanation": "Period-over-period comparison"
+    },
+    {
+      "category": "traffic",
+      "user_query": "Where are our visitors from?",
+      "template_id": "visitor_sources",
+      "parameters": {
+        "group_by": "source",
+        "limit": 10
+      },
+      "explanation": "Traffic source breakdown"
+    },
+    {
+      "category": "conversion",
+      "user_query": "What's our conversion rate this week?",
+      "template_id": "conversion_rate",
+      "parameters": {
+        "start_date": "2024-10-24",
+        "end_date": "2024-10-31"
+      },
+      "explanation": "Conversion rate calculation for date range"
+    },
+    {
+      "category": "conversion",
+      "user_query": "Revenue per visitor this month",
+      "template_id": "revenue_per_visitor",
+      "parameters": {
+        "start_date": "2024-10-01",
+        "end_date": "2024-10-31"
+      },
+      "explanation": "Average revenue per visitor metric"
+    },
+    {
+      "category": "conversion",
+      "user_query": "Which days have best conversion?",
+      "template_id": "best_conversion_days",
+      "parameters": {
+        "period": "month",
+        "limit": 5
+      },
+      "explanation": "Ranking of days by conversion rate"
+    },
+    {
+      "category": "conversion",
+      "user_query": "How is the business doing?",
+      "template_id": "business_summary",
+      "parameters": {
+        "period": "week"
+      },
+      "explanation": "Multi-metric business health summary"
+    }
+  ],
+  "parameter_extraction_patterns": {
+    "date_patterns": [
+      {
+        "pattern": "yesterday",
+        "offset_days": -1,
+        "example": "yesterday → 2024-10-30"
+      },
+      {
+        "pattern": "last week",
+        "offset_days": -7,
+        "duration_days": 7,
+        "example": "last week → 2024-10-24 to 2024-10-31"
+      },
+      {
+        "pattern": "this month",
+        "type": "current_month",
+        "example": "this month → 2024-10-01 to 2024-10-31"
+      },
+      {
+        "pattern": "last month",
+        "type": "previous_month",
+        "example": "last month → 2024-09-01 to 2024-09-30"
+      }
+    ],
+    "aggregation_keywords": {
+      "total": "sum",
+      "average": "avg",
+      "count": "count",
+      "maximum": "max",
+      "minimum": "min"
+    },
+    "ranking_keywords": [
+      "top",
+      "best",
+      "highest",
+      "most",
+      "leading"
+    ],
+    "comparison_keywords": [
+      "compare",
+      "versus",
+      "vs",
+      "difference",
+      "change"
+    ]
+  },
+  "template_selection_guidelines": {
+    "sales_indicators": [
+      "sales",
+      "revenue",
+      "products",
+      "transactions",
+      "purchases",
+      "orders"
+    ],
+    "traffic_indicators": [
+      "visitors",
+      "visits",
+      "traffic",
+      "sessions",
+      "pageviews"
+    ],
+    "conversion_indicators": [
+      "conversion",
+      "rate",
+      "business",
+      "performance",
+      "metrics"
+    ]
+  }
+}

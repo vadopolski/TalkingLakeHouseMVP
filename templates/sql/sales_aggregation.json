@@ -1,0 +1,39 @@
+{
+  "template_id": "sales_aggregation",
+  "description": "Aggregate sales data by various metrics (sum, avg, count, etc.)",
+  "category": "sales",
+  "sql_structure": "SELECT {aggregation}(revenue) as result FROM sales_transactions WHERE transaction_date >= '{start_date}' AND transaction_date <= '{end_date}'",
+  "parameters": [
+    {
+      "name": "start_date",
+      "type": "date",
+      "required": true
+    },
+    {
+      "name": "end_date",
+      "type": "date",
+      "required": true
+    },
+    {
+      "name": "aggregation",
+      "type": "string",
+      "required": false,
+      "default_value": "SUM",
+      "validation": {
+        "allowed_values": ["SUM", "AVG", "COUNT", "MAX", "MIN"]
+      }
+    }
+  ],
+  "whitelisted_tables": ["sales_transactions"],
+  "whitelisted_columns": ["revenue", "transaction_date"],
+  "chart_type": "none",
+  "response_format": "text_only",
+  "example_questions": [
+    "Total revenue this month",
+    "Average sales per transaction",
+    "How many sales transactions?",
+    "Maximum sale amount"
+  ],
+  "limit_clause_required": false,
+  "timeout_seconds": 30
+}

@@ -1,13 +1,13 @@
-# Implementation Plan: [FEATURE]
+# Implementation Plan: Sales & Website Analytics Chat Assistant
 
-**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
-**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+**Branch**: `001-sales-chat-assistant` | **Date**: 2025-10-31 | **Spec**: [spec.md](spec.md)
+**Input**: Feature specification from `/specs/001-sales-chat-assistant/spec.md`
 
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
 ## Summary
 
-[Extract from feature spec: primary requirement + technical approach from research]
+Build a natural language chat interface for business users to query sales and website traffic data without SQL knowledge. System uses LLM-powered pipeline (classify → pick template → extract params → validate → execute SQL → return chart/text answer) with pre-approved SQL templates stored in Git. Architecture enforces strict safety controls: whitelisted tables/columns, mandatory LIMIT clauses, read-only database access, blocked risky SQL keywords, parameter validation, query timeouts, and rate limiting. Few-shot examples guide LLM template selection and parameter extraction for high accuracy.
 
 ## Technical Context
 

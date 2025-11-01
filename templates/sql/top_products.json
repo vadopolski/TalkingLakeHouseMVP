@@ -1,0 +1,41 @@
+{
+  "template_id": "top_products",
+  "description": "Query top selling products by revenue or quantity",
+  "category": "sales",
+  "sql_structure": "SELECT product_id, SUM(revenue) as total_revenue, SUM(quantity) as total_quantity, COUNT(*) as transaction_count FROM sales_transactions WHERE transaction_date >= '{start_date}' AND transaction_date <= '{end_date}' GROUP BY product_id ORDER BY {order_by} DESC",
+  "parameters": [
+    {
+      "name": "start_date",
+      "type": "date",
+      "required": false,
+      "default_value": "2024-01-01"
+    },
+    {
+      "name": "end_date",
+      "type": "date",
+      "required": false,
+      "default_value": "2024-12-31"
+    },
+    {
+      "name": "order_by",
+      "type": "string",
+      "required": false,
+      "default_value": "total_revenue",
+      "validation": {
+        "allowed_values": ["total_revenue", "total_quantity", "transaction_count"]
+      }
+    }
+  ],
+  "whitelisted_tables": ["sales_transactions"],
+  "whitelisted_columns": ["product_id", "revenue", "quantity", "transaction_date"],
+  "chart_type": "bar",
+  "response_format": "text_and_chart",
+  "example_questions": [
+    "Show me top selling products",
+    "What are the best sellers?",
+    "Top 5 products by revenue",
+    "Which products sell the most?"
+  ],
+  "limit_clause_required": true,
+  "timeout_seconds": 30
+}

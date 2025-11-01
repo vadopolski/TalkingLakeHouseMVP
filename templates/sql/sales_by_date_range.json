@@ -1,0 +1,36 @@
+{
+  "template_id": "sales_by_date_range",
+  "description": "Query sales data within a specific date range, grouped by date",
+  "category": "sales",
+  "sql_structure": "SELECT DATE(transaction_date) as date, SUM(revenue) as revenue, COUNT(*) as transaction_count FROM sales_transactions WHERE transaction_date >= '{start_date}' AND transaction_date <= '{end_date}' GROUP BY DATE(transaction_date) ORDER BY date",
+  "parameters": [
+    {
+      "name": "start_date",
+      "type": "date",
+      "required": true,
+      "validation": {
+        "min_value": "2020-01-01"
+      }
+    },
+    {
+      "name": "end_date",
+      "type": "date",
+      "required": true,
+      "validation": {
+        "min_value": "2020-01-01"
+      }
+    }
+  ],
+  "whitelisted_tables": ["sales_transactions"],
+  "whitelisted_columns": ["transaction_date", "revenue", "product_id", "quantity", "customer_id"],
+  "chart_type": "bar",
+  "response_format": "text_and_chart",
+  "example_questions": [
+    "What were sales last week?",
+    "Show me sales from October 1 to October 15",
+    "Sales for the past 7 days",
+    "Revenue this month"
+  ],
+  "limit_clause_required": true,
+  "timeout_seconds": 30
+}
